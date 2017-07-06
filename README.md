@@ -1,2 +1,2 @@
 # tomcat
-Imagen con tomcat7 y Jrebel
+Imagen con tomcat 8, java 8 y Jrebel
