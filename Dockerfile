@@ -1,3 +1,4 @@
+# tomcat de alpine
 FROM tomcat:8-jre8-alpine
 
 MAINTAINER Yohany Flores <yohanyflores@gmail.com>
@@ -32,6 +33,7 @@ RUN apk --no-cache --update add \
 		mongodb-tools \
 	&& rm -rf /var/cache/apk/*
 
+#Version >= 7.1.4
 RUN apk --no-cache --update add unzip \
 	&& curl -O http://dl.zeroturnaround.com/jrebel-stable-nosetup.zip \
 	&& unzip jrebel-stable-nosetup.zip \
