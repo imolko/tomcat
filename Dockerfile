@@ -44,11 +44,12 @@ RUN apk --no-cache --update add unzip \
 # Copiamos el certificado.
 RUN  curl -o /usr/local/share/ca-certificates/cacert.crt https://imolko-dev.nyc3.digitaloceanspaces.com/certs/certs/ca-dev/cacert.crt \
     && update-ca-certificates \
-	&& echo "yes" | keytool -import -trustcacerts \
-		-file /usr/local/share/ca-certificates/cacert.crt \
-		-alias imolkocorp. \
-		-keystore  $JAVA_HOME/jre/lib/security/cacerts \
-		-storepass "changeit"
+	&& keytool -list -keystore $JAVA_HOME/jre/lib/security/cacerts     
+#	&& echo "yes" | keytool -import -trustcacerts \
+#		-file /usr/local/share/ca-certificates/cacert.crt \
+#		-alias imolkocorp. \
+#		-keystore  $JAVA_HOME/jre/lib/security/cacerts \
+#		-storepass "changeit"
 
 
 # Para debug
