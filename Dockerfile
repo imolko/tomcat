@@ -1,8 +1,7 @@
 # tomcat de alpine
 FROM tomcat:8-jre8-alpine
 
-MAINTAINER Yohany Flores <yohanyflores@gmail.com>
-
+LABEL manteiner="Yohany Flores <yohanyflores@gmail.com>"
 LABEL com.imolko.group=imolko
 LABEL com.imolko.type=base
 
