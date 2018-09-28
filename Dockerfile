@@ -38,7 +38,7 @@ RUN apk --no-cache --update add unzip \
 	&& curl -O http://dl.zeroturnaround.com/jrebel-stable-nosetup.zip \
 	&& unzip jrebel-stable-nosetup.zip \
 	&& rm -rf jrebel-stable-nosetup.zip \
-	&& apk del tzdata \
+	&& apk del unzip \
 	&& rm -rf /var/cache/apk/*
 
 # Copiamos el certificado.
