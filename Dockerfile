@@ -34,7 +34,7 @@ RUN apk --no-cache --update add \
 	&& rm -rf /var/cache/apk/*
 
 # Mongo import version.
-RUN mongoimport --version \	
+RUN mongoimport --version
 
 #Version >= 7.1.4
 RUN apk --no-cache --update add unzip \
