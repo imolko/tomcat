@@ -1,3 +1,29 @@
+FROM golang:1.11-alpine AS build-mongo-tool
+
+# Branch de mongo tool
+ENV MONGOTOOL_VERSION=v3.0
+# Package option para establecer version y git hash
+ENV VERSION_PACKAGE=github.com/mongodb/mongo-tools/common/options
+
+# clonamos el repositoio.
+RUN cd / && \
+	apk add --no-cache git pkg-config && \
+	git clone -b "${MONGOTOOL_VERSION}" --depth 1 "https://github.com/mongodb/mongo-tools" && \
+	cd /mongo-tools && \
+	. ./set_gopath.sh && \
+	mkdir -p bin && \
+	go build -v \
+		-tags ssl \
+ 		-ldflags "-X ${VERSION_PACKAGE}.VersionStr=$(git describe) -X ${VERSION_PACKAGE}.Gitspec=$(git rev-parse HEAD)" \		
+		-o bin/mongoimport \
+		mongoimport/main/mongoimport.go && \
+	apk del git pkg-config && \
+	bin/mongoimport --version
+
+RUN ldd /mongo-tools/bin/mongoimport
+
+RUN /mongo-tools/bin/mongoimport --version
+
 # tomcat de alpine
 FROM tomcat:8-jre8-alpine
 
