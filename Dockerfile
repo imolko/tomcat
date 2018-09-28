@@ -33,6 +33,9 @@ RUN apk --no-cache --update add \
 		mongodb-tools \
 	&& rm -rf /var/cache/apk/*
 
+# Mongo import version.
+RUN mongoimport --version \	
+
 #Version >= 7.1.4
 RUN apk --no-cache --update add unzip \
 	&& curl -O http://dl.zeroturnaround.com/jrebel-stable-nosetup.zip \
