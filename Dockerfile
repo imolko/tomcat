@@ -12,7 +12,7 @@ RUN cd / && \
 	. ./set_gopath.sh && \
 	mkdir -p bin && \
 	go build -v \
-		-ldflags "-X ${VERSION_PACKAGE}.VersionStr=$(git describe) -X ${VERSION_PACKAGE}.Gitspec=$(git rev-parse HEAD)" \
+ 		-ldflags "-X ${VERSION_PACKAGE}.VersionStr=$(git describe) -X ${VERSION_PACKAGE}.Gitspec=$(git rev-parse HEAD)" \		
 		-o bin/mongoimport \
 		mongoimport/main/mongoimport.go && \
 	bin/mongoimport --version
