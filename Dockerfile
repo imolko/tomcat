@@ -7,7 +7,8 @@ ENV VERSION_PACKAGE=github.com/mongodb/mongo-tools/common/options
 
 # clonamos el repositoio.
 RUN cd / && \
-	apk add --no-cache git pkg-config && \
+	apk --no-cache --update add openssl && \
+	apk --update add --virtual build-dependencies build-base gcc wget git openssl-dev pkgconfig && \
 	git clone -b "${MONGOTOOL_VERSION}" --depth 1 "https://github.com/mongodb/mongo-tools" && \
 	cd /mongo-tools && \
 	. ./set_gopath.sh && \
@@ -17,7 +18,8 @@ RUN cd / && \
  		-ldflags "-X ${VERSION_PACKAGE}.VersionStr=$(git describe) -X ${VERSION_PACKAGE}.Gitspec=$(git rev-parse HEAD)" \		
 		-o bin/mongoimport \
 		mongoimport/main/mongoimport.go && \
-	apk del git pkg-config && \
+	apk del build-dependencies && \
+	rm -rf /var/cache/apk/* && \
 	bin/mongoimport --version
 
 RUN ldd /mongo-tools/bin/mongoimport
@@ -55,8 +57,10 @@ RUN apk --no-cache --update add tzdata \
 RUN apk --no-cache --update add \
 		ca-certificates \
     	curl \
-		mongodb-tools \
 	&& rm -rf /var/cache/apk/*
+
+COPY --from=build-mongo-tool /mongo-tools/bin/mongoimport /usr/local/bin/
+RUN ldd /usr/local/bin/mongoimport && mongoimport --version
 
 # Mongo import version.
 RUN mongoimport --version
