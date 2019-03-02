@@ -87,4 +87,3 @@ RUN  curl -o /usr/local/share/ca-certificates/cacert.crt https://imolko-dev.nyc3
 # Para debug con jrebel
 EXPOSE 1043
 EXPOSE 8090
-
