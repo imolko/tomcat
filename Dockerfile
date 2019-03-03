@@ -1,4 +1,4 @@
-FROM golang:1.11-alpine AS build-mongo-tool
+FROM golang:1.12-alpine AS build-mongo-tool
 
 # Branch de mongo tool
 ENV MONGOTOOL_VERSION=v3.0
@@ -7,20 +7,20 @@ ENV VERSION_PACKAGE=github.com/mongodb/mongo-tools/common/options
 
 # clonamos el repositoio.
 RUN cd / && \
-	apk --no-cache --update add openssl && \
+	apk --no-cache --update add openssl bash && \
 	apk --update add --virtual build-dependencies build-base gcc wget git openssl-dev pkgconfig && \
-	git clone -b "${MONGOTOOL_VERSION}" --depth 1 "https://github.com/mongodb/mongo-tools" && \
-	cd /mongo-tools && \
+	git clone -b "${MONGOTOOL_VERSION}" --depth 1 "https://github.com/mongodb/mongo-tools"  && \
+  cd /mongo-tools && \
 	. ./set_gopath.sh && \
-	mkdir -p bin && \
+  mkdir -p bin && \
 	go build -v \
-		-tags ssl \
  		-ldflags "-X ${VERSION_PACKAGE}.VersionStr=$(git describe) -X ${VERSION_PACKAGE}.Gitspec=$(git rev-parse HEAD)" \		
 		-o bin/mongoimport \
 		mongoimport/main/mongoimport.go && \
 	apk del build-dependencies && \
 	rm -rf /var/cache/apk/* && \
 	bin/mongoimport --version
+#		-tags ssl \
 
 RUN ldd /mongo-tools/bin/mongoimport
 
