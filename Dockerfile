@@ -39,6 +39,10 @@ RUN set -x && curl -O http://dl.zeroturnaround.com/jrebel-stable-nosetup.zip \
 	&& unzip jrebel-stable-nosetup.zip \
 	&& rm -rf jrebel-stable-nosetup.zip
 
+RUN  curl -o /usr/local/share/ca-certificates/cacert.crt https://imolko-dev.nyc3.digitaloceanspaces.com/certs/certs/ca-dev/cacert.crt \
+    && update-ca-certificates \
+	&& keytool -list -keystore $JAVA_HOME/lib/security/cacerts -storepass "changeit"
+
 # Para debug
 EXPOSE 1043
 EXPOSE 8090
